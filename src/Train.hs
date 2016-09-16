@@ -1,5 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 module Train 
 ( getData
 , splitGender
@@ -9,24 +7,8 @@ module Train
 import Data.Csv
 import Data.Text (Text, pack)
 import qualified Data.Vector as V
-import GHC.Generics
+import Person
 
-data Person = Person { passengerId :: !Int, survived :: !Int, pclass :: !Int
-                     , name :: !Text, sex :: !Text, age :: !DefaultAge, sibSp :: !Int
-                     , parch :: !Int, ticket :: !Text, fare :: !Float
-                     , cabin :: !Text, embarked :: !Text
-                     } deriving (Generic, Show)
-
-instance FromRecord Person
-
-newtype DefaultAge = DefaultAge Int
-  deriving Show
-
-instance FromField DefaultAge where
-    parseField s = case runParser (parseField s) of
-      Left err -> pure $ DefaultAge 35
-      Right n  -> pure $ DefaultAge n
-  
 getData content = decode HasHeader content :: Either String (V.Vector Person)
 
 splitGender :: V.Vector Person -> (V.Vector Person, V.Vector Person)

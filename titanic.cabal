@@ -20,4 +20,5 @@ executable titanic
                      , text
                      , bytestring
                      , vector
+                     , binary
                      , cassava
